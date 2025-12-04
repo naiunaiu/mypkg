@@ -10,8 +10,16 @@ jobs:
         with:
           python-version: '3.10'
       - name: build and test
+        shell: -e
         run: |
+          . /opt/ros/humble/setup.bash
+          WORKSPACE_ROOT=/root/ros2_ws
+          mkdir -p $WORKSPACE_ROOT/src
+
+          rsync -av ./ $WORKSPACE_ROOT/src/mypkg/
+
+
           rsync -av ./ /root/ros2_ws/src/mypkg/
           cd /root/ros2_ws
-          bash -xv ./src/mypkg/test/test.bash /root
+          bash -xv $WORKSPACE_ROOT/src/mypkg/test/test.bash/root
 
